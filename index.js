@@ -1,8 +1,15 @@
 import express from "express";
-import recipeRouter from "./routes/recipes.js";
+import mongoose from "mongoose";
+import recipeRouter from "./routes/recipe.js";
+
+// connect to database
+await mongoose.connect(process.env.MONGO_URL)
 
 // create express app
 const app = express();
+
+// apply middlewares
+app.use(express.json());
 
 // define routes
 app.get('/', (req,res) => {
@@ -27,3 +34,5 @@ app.use(recipeRouter);
 app.listen(3000, () =>{
     console.log('App listening on port 3000');
 });
+
+
