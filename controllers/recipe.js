@@ -1,4 +1,5 @@
 import { RecipeModel } from "../models/recipe.js";
+import { CategoryModel } from "../models/category.js";
 
 
 // Get all recipes
