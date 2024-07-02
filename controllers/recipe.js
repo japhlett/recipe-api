@@ -5,8 +5,13 @@ import { CategoryModel } from "../models/category.js";
 // Get all recipes
 export const getRecipes = async (req,res,next) =>{
     try {
-        // Get recipes from database
-        const allRecipes = await RecipeModel.find();
+        // Get query params
+        const {limit,skip,search} = req.query;
+        // Get all recipes from database
+        const allRecipes = await RecipeModel
+        .find({name:search})
+        .limit(limit)
+        .skip(skip);
         // Return all recipes as response
         res.json(allRecipes);
     } catch (error) {
