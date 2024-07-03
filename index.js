@@ -4,6 +4,7 @@ import { dbConnection } from "./config/db.js";
 import recipeRouter from "./routes/recipe.js";
 import categoryRouter from "./routes/category.js";
 import mongoose from "mongoose";
+import cors from "cors";
 
 
 // connect to database
@@ -19,6 +20,7 @@ expressOasGenerator.handleResponses(app, {
 });
 
 // apply middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'))
 

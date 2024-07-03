@@ -6,10 +6,10 @@ import { CategoryModel } from "../models/category.js";
 export const getRecipes = async (req,res,next) =>{
     try {
         // Get query params
-        const {limit,skip,search} = req.query;
+        const {limit,skip,filter} = req.query;
         // Get all recipes from database
         const allRecipes = await RecipeModel
-        .find({name:search})
+       .find(filter)
         .limit(limit)
         .skip(skip);
         // Return all recipes as response
