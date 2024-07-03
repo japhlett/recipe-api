@@ -4,7 +4,13 @@ import { CategoryModel } from "../models/category.js";
 export const getCategories = async (req,res,next) =>{
     try {
         // Get query params
-        const {limit,skip,filter,fields} = req.query;
+        const {
+            filter="{}",
+            sort="{}",
+            limit=10,
+            skip=0,
+            fields="{}"
+        } = req.query;
         // Fetch all categories from the database
         const allCategories = await CategoryModel
         .find(JSON.parse(filter))
@@ -33,3 +39,22 @@ export const postCategory = async (req,res,next) =>{
     }
 }
 
+// deleting a category
+export const deleteCategory = async (req, res,next) =>{
+    try {
+       const deletedCategory = await CategoryModel.findByIdAndDelete(req.params.id) 
+       res.json(`Category with ID ${req.params.id} deleted`);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// patching a category
+export const updateCategory = async(req,res,next) =>{
+    try {
+        const updatedCategory = await CategoryModel.findByIdAndDelete(req.params.id)
+        res.status(200).sen(updatedCategory);
+    } catch (error) {
+        next(error);
+    }
+}
