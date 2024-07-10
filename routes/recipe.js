@@ -1,20 +1,24 @@
 import { Router } from "express";
-import { getRecipes,postRecipes,patchRecipe,deleteRecipe,getRecipe} from "../controllers/recipe.js";
-import {remoteUpload } from "../middlewares/upload.js";
+import { getRecipes, postRecipes, patchRecipe, deleteRecipe,getRecipe} from "../controllers/recipe.js";
+import { remoteUpload } from "../middlewares/upload.js";
+import { checkUserSession } from "../middlewares/auth.js";
 
 // Create a router
 const recipeRouter = Router();
 
+// apply middlware
+recipeRouter.use(checkUserSession);
+
 // define routes
-recipeRouter.get('/recipes/', getRecipes);
-// applied upload middleware
-recipeRouter.post("/recipes", remoteUpload.single("image"), postRecipes);
+recipeRouter.get("/recipes/", getRecipes);
 
-recipeRouter.patch('/recipes/:id',patchRecipe );
+recipeRouter.post("/recipes",checkUserSession, remoteUpload.single("image"), postRecipes);
 
-recipeRouter.delete('/recipes/:id', deleteRecipe);
+recipeRouter.patch("/recipes/:id",checkUserSession, patchRecipe);
 
-recipeRouter.get('/recipes/:id', getRecipe);
+recipeRouter.delete("/recipes/:id", checkUserSession, deleteRecipe);
+
+recipeRouter.get("/recipes/:id", getRecipe);
 
 // export router
 export default recipeRouter;
